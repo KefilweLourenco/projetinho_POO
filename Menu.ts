@@ -1,11 +1,15 @@
 ﻿import readlinesync = require("readline-sync");
 import { Animal } from "./src/model/Animal";
+import { Mamifero } from "./src/model/Mamifero";
+import { Ave } from "./src/model/Ave";
  
 export function main() {
  
-    const cadastrarAnimal = Array<Animal>();
+    const cadastroAnimal = Array<Animal>();
  
-    let continuar = true;
+    let continuar: boolean = true;
+    let opcao: number;
+
  
     // const animal = new Animal("Gato", 2, "Felino", "Cinza");
     // const animal2 = new Animal("Cachorro",6, "Canino", "Preto");
@@ -16,7 +20,42 @@ export function main() {
     // console.log(animal.idade)
  
     do{
-        const animal = new Animal();
+        console.log("\nMENU \n1 - Cadastrar Animal \n2 - Listar Animais");
+        opcao = readlinesync.questionInt("Digite a opcao desejada: ");
+
+        switch(opcao){
+            case 1:
+                console.log("Cadastre o Animal");
+                console.log("1 - Mamifero\n2 - Ave");
+                let opcaoAnimal = readlinesync.questionInt("Digite a opcao desejada: ");
+                let animal: Animal;
+
+                animal = opcaoAnimal == 1 ? new Mamifero() : new Ave();
+
+                animal.nome = readlinesync.question("Digite o nome do animal: ");
+                animal.idade = readlinesync.questionInt("Digite a idade do animal: ");
+                animal.especie = readlinesync.question("Digite a especie do animal: ");
+                animal.cor =  readlinesync.question("Digite a cor do anuimal: ");
+
+                if(animal instanceof Mamifero){
+                    animal.dente = readlinesync.question("Digite o dente do animal: ");
+                }
+                if(animal instanceof Ave){
+                    animal.voo = readlinesync.keyInYNStrict("O animal voa?: ");
+                }
+
+                cadastroAnimal.push(animal);
+
+            break;
+            case 2:
+            
+            for(let animal of cadastroAnimal){
+                animal.visualizar();
+            }
+
+            break;
+        }
+        /*const animal = new Animal();
  
         animal.nome = readlinesync.question("Digite o nome do animal: ");  
         animal.idade = readlinesync.questionInt("Digite a idade do animal: ");
@@ -25,20 +64,14 @@ export function main() {
        
         cadastrarAnimal.push(animal)
 
-        animal.visualizar()
+        animal.visualizar()*/
 
-        continuar = readlinesync.keyInYNStrict("Deseja cadastrar outro animal?: ");
+        continuar = readlinesync.keyInYNStrict("Deseja voltar para o menu?: ");
  
     }while(continuar){
     
-    for(let animal of cadastrarAnimal){
-        console.log(`Nome ${animal.nome} - Idade ${animal.idade} - Especie ${animal.especie} - Cor ${animal.cor}`);
     }
-    
-    }
- 
- 
- 
+  
 }
  
 main();
